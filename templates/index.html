@@ -24,10 +24,11 @@
         <br>
           <main class="px-3">
             <div class="row">
-              <div class="col-3">                
+              <div class="col-4">                
                 <h3 align="center">All items</h3>
-                <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="Search..">
-                <div id="all_items_container" class="items-box flex-container">
+                <input type="text" id="searchInput" onkeyup="searchItems()" placeholder="Search...">
+                <br>
+                <div id="all_items_container" class="items-box">
                 {% for item in items_list: %}
                   <img src= {{ url_for('static', filename=item['image_src']) }} 
                   title= "{{ item['name'] }}" 
@@ -37,14 +38,14 @@
                 {% endfor %}
                 </div>
               </div>
-              <div class="col-9">      
+              <div class="col-8">      
                 <div class="row">    
                   <h3 align="left">Need</h3>  
-                  <div id="need_items" class="box flex-container"></div>
+                  <div id="need_items" class="need-box"></div>
                 </div>
                 <div class="row">    
                   <h3 align="left">Want</h3>        
-                  <div id="want_items" class="box flex-container"></div>
+                  <div id="want_items" class="want-box"></div>
                 </div>
               </div>
             </div>
@@ -60,15 +61,13 @@
             var dragging = false;
 
             function searchItems(){
-              var input, filter, ul, li, a, i, txtValue;
+              var input, filter, i, txtValue;
               input = document.getElementById('searchInput');
               filter = input.value.toUpperCase();
-              item_container = document.getElementById("all_items_container");
-              items = item_container.getElementsByTagName('div');
-
+              
               // Loop through all list items, and hide those who don't match the search query
               for (i = 0; i < items.length; i++) {
-                txtValue= items[i].id
+                txtValue = items[i].id;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                   items[i].style.display = "";
                 } else {
@@ -89,21 +88,21 @@
 
 
             /* drop targets */
-            const boxes = document.querySelectorAll('.box');
-            const boxes2 = document.querySelectorAll('.items-box');
+            const need_box = document.querySelectorAll('.need-box');
+            const want_box = document.querySelectorAll('.want-box');
 
-            boxes.forEach(box => {
+            need_box.forEach(box => {
                 box.addEventListener('dragenter', dragEnter)
                 box.addEventListener('dragover', dragOver);
                 box.addEventListener('dragleave', dragLeave);
                 box.addEventListener('drop', drop);
             });
-            //boxes2.forEach(box => {
-            //  box.addEventListener('dragenter', dragEnter)
-            //  box.addEventListener('dragover', dragOver);
-            //  box.addEventListener('dragleave', dragLeave);
-            //  box.addEventListener('drop', drop);
-            //});
+            want_box.forEach(box => {
+                box.addEventListener('dragenter', dragEnter)
+                box.addEventListener('dragover', dragOver);
+                box.addEventListener('dragleave', dragLeave);
+                box.addEventListener('drop', drop);
+            });
 
 
             function dragEnter(e) {
@@ -149,16 +148,54 @@
               need_items = document.getElementById("need_items");
 
               const new_item = document.createElement("div");
-              new_item.classList.add("form-row")
-              new_item.innerHTML = "<img width='75' height='75'" + 
-                " src=" + original_item.src + " />";
-              
-              new_item.innerHTML += original_item.id; 
-              
-              new_item.innerHTML += '<input width="50px" type="number" step="1" max="50" value="0" name="current" class="quantity-field">';
-              new_item.innerHTML += " / ";
-              new_item.innerHTML += '<input width="50px" type="number" step="1" max="50" value="0" name="total" class="quantity-field">';
+              new_item.classList.add("form-row");
+              new_item.classList.add("row");
+              new_item.style.display = "grid";
+              //new_item.style.flexDirection = "column";
+              new_item.style.gridTemplateColumns = "10vh 10vw 4vw 5vw 4vw";
+              //new_item.style.gridAutoRows = "10vh";
+              new_item.style.gridGap = "0vh";
+              new_item.style.height = "10vh";
+              //new_item.style.width = "20vw";
+              new_item.style.justifyContent = "center";
+              new_item.style.textAlign = "center";
+              new_item.style.alignItems = "center";
 
+              const new_item_img_div = document.createElement("img");
+              //new_item_img_div.style.maxWidth = "100%";
+              new_item_img_div.src = original_item.src;
+              //new_item_img_div.style.display = "block";
+              new_item_img_div.style.height = "10vh";
+              new_item_img_div.style.width = "10vh";
+              
+
+              const new_item_name_div = document.createElement("div");
+              //new_item_name_div.style.width = "20%";
+              //new_item_name_div.style.fontSize = "1.5vw";
+              new_item_name_div.style.justifyContent = "center";
+              new_item_name_div.style.textAlign = "center";
+              new_item_name_div.innerHTML += original_item.id; 
+              
+              const first_buttons_div = document.createElement("div");
+              //first_buttons_div.style.width = "25%";             
+              first_buttons_div.innerHTML += '<button class="button add-button">+</button>';
+              first_buttons_div.innerHTML += '<button class="button subtract-button">-</button>';
+
+              const fraction_div = document.createElement("div");
+              //fraction_div.style.width = "10%";  
+              fraction_div.style.fontSize = "3vw";
+              fraction_div.innerHTML += '  1&frasl;8  ';
+
+              const second_buttons_div = document.createElement("div");
+              //second_buttons_div.style.width = "25%";  
+              second_buttons_div.innerHTML += '<button class="button add-button">+</button>';
+              second_buttons_div.innerHTML += '<button class="button subtract-button">-</button>';
+
+              new_item.appendChild(new_item_img_div);
+              new_item.appendChild(new_item_name_div);
+              new_item.appendChild(first_buttons_div);
+              new_item.appendChild(fraction_div);
+              new_item.appendChild(second_buttons_div);
               need_items.appendChild(new_item);
             }
             function add_item_to_want(original_item){

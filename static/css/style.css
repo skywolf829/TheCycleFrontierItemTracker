@@ -2,33 +2,44 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Refinery, ui-sans, system-ui, Helvetica, Arial, sans-serif;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    font-size: 16px;
     background-color: #fff;
     overflow: hidden;
 }
 
-.box {
+.need-box {
     border: solid 3px #ccc;
-    height: 400px;
+    height: 50vh;
     /* align items in the box */
     display: grid;
-    overflow: auto;
-    flex-direction: column;
-    flex-wrap: wrap;
+    grid-template-columns: repeat(2, 1fr);
+    overflow: scroll;
+    gap: 10px;
+}
+
+.want-box {
+    border: solid 3px #ccc;
+    height: 10vh;
+    /* align items in the box */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    overflow: scroll;
+    gap: 10px;
 }
 
 .items-box {
     border: solid 3px #ccc;
-    height: 700px;
-    /* align items in the box */
     display: grid;
-    overflow: auto;
-    flex-direction: column;
-    flex-wrap: wrap;
+    grid-template-columns: repeat(auto-fill, 5.5vw);
+    grid-template-rows: repeat(auto-fill, 5.5vw);
+    grid-auto-flow: row;
+    overflow: scroll;    
+    gap: 0px;
+    height: 70vh;
+    justify-content: space-evenly;
 }
 
 
@@ -37,11 +48,8 @@ body {
 }
 
 .item {
-    height: 75px;
-    width: 75px;
-    flex: 0 0 0;
-    margin: 5px;
-    
+    height: 5.5vw;
+    width: 5.5vw;
     /*background-color: #F0DB4F; */
 
 }
@@ -56,3 +64,29 @@ body {
     flex-direction: row;
     margin: 20px;
 }
+
+.add-button {
+    background-color: #28f093;
+    border: 1px;
+    width: 1.5vw;
+    height: 1.5vw;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1vw;
+    border-radius: 50%;
+  }
+
+.subtract-button {
+    background-color: #f73c3c;
+    border: 1px;
+    width: 1.5vw;
+    height: 1.5vw;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1vw;
+    border-radius: 50%;
+  }
