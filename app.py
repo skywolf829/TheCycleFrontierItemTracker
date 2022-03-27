@@ -111,7 +111,7 @@ def populate_items():
                
             #print(f"{name}: {link} {weight} {price_per_weight}")
             item = {
-                "id":item_no,
+                "id":str(item_no),
                 "name":name,
                 "link":link,
                 "image_src":image_src,
