@@ -11,10 +11,29 @@
         <script>
           
         </script>
-        <title>The Cycle: Frontier Items List</title>
+        <title>The Cycle: Frontier Items Tracker</title>
         <link rel="stylesheet" href={{ url_for('static', filename="css/style.css") }}>
     </head>
     <body class="d-flex h-100 text-center text-white bg-dark">
+      <div class="column">
+        <div align="left" class="lead-text-box">
+          <p class="lead-text-box-header">Welcome, prospector!</p>
+          <p>
+           This site is here for you to track the items you need for 
+          base upgrades and crafting. Drag items from the left into 
+          the "Need" and "Want" categories. 
+          Delete items from the want list by clicking them, or from the
+          need list by clicking the trash icon on the right.
+          </p>
+          <p>
+          Feel free to tinker with my code, available
+          <a href="https://github.com/skywolf829/TheCycleItemsList"> on GitHub </a>. 
+          </p>
+          <p>
+          Thanks, and happy prospecting!
+          </p>
+        </div>
+        <div>
       <div class="box">
         <div>                
           <h3 align="center" style="font-size: min(4vh, 4vw);">All items</h3>
@@ -41,12 +60,16 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <footer class="row mt-auto text-white-50">
+          <p>Made by Skylar Wurster (swwurster@gmail.com)</p>
+        </footer>
+      </div>
+      </div>
+      </div>
+      
 
-      <br>          
 
-      <footer class="mt-auto text-white-50">
-        <p>A page made by Skylar Wurster (swwurster@gmail.com)</p>
-      </footer>
 
           <script>
             var dragging = false;
@@ -113,15 +136,11 @@
             function loadCookieData(){
               d = getCookie("data");
               d = d.split(",");
-              console.log(d);
               no_need_items = parseInt(d[0]);
               no_want_items = parseInt(d[1]);
-              console.log(2+(no_need_items*3));
               var ind = 2;
-              console.log('need items');
               end = 2+(no_need_items*3)
               for(ind = 2; ind < end; ind+=3){
-                console.log(ind);
                 item_id = d[ind];
                 item_have_num = d[ind+1];
                 item_total_num = d[ind+2];
@@ -130,9 +149,8 @@
                 need_item.children[3].innerHTML = 
                   item_have_num +"&frasl;" + item_total_num;
               }
-              console.log('want items');
+              
               for(; ind < d.length; ind++){
-                console.log(ind);
                 item_id = d[ind];
                 node = item_id_to_object(item_id);
                 add_item_to_want(node);
@@ -266,7 +284,7 @@
               new_item.id = original_item.id + " need";
 
               const new_item_img_div = document.createElement("img");
-              new_item_img_div.style.height = "min(10vh, 5vw)";
+              new_item_img_div.style.height = "min(10vh, 3vw)";
               new_item_img_div.src = original_item.src;
               //new_item_img_div.style.display = "block";
               //new_item_img_div.style.height = "10vh";
@@ -371,7 +389,8 @@
             function add_item_to_want(original_item){
               const new_item_img_div = document.createElement("img");
               new_item_img_div.id = original_item.id + " want";
-              new_item_img_div.style.maxWidth = "100%";
+              new_item_img_div.style.height = "min(10vh, 3vw)";
+              new_item_img_div.style.width = "min(10vh, 3vw)";
               new_item_img_div.src = original_item.src;              
               new_item_img_div.style.cursor = "pointer";
               new_item_img_div.addEventListener('click', function handleClick(event){
