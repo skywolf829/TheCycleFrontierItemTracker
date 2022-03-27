@@ -32,7 +32,8 @@ def index():
     global items_list
     log_visitor()
     if(items_list is None):
-        populate_items()
+        #download_images();
+        populate_items();
         
     return render_template('index.html', items_list=items_list) 
 
@@ -64,7 +65,6 @@ def download_images():
                     img.raw.decode_content = True
                     shutil.copyfileobj(img.raw, f) 
                 
-
 def populate_items():
     global items_list
     items_list = []

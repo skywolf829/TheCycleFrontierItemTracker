@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: Refinery, ui-sans, system-ui, Helvetica, Arial, sans-serif;
+    
 }
 
 body {
@@ -10,24 +11,57 @@ body {
     overflow: hidden;
 }
 
+.box{
+    border: solid 4px #ccc;
+    width: 96vw;
+    height: 90vh;
+    display: grid;
+    grid-template-columns: 31vw 65vw;
+    margin: 2vw;
+}
+
+.need-want-boxes{
+    border: solid 3px rgb(19, 211, 99);
+    display: grid;
+    grid-template-rows: 61vh 21vh;  
+    margin: 1vw;
+}
 .need-box {
-    border: solid 3px #ccc;
-    height: 50vh;
+    border: solid 3px rgb(251, 0, 0);
+    height: 55vh;
     /* align items in the box */
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    overflow: scroll;
-    gap: 10px;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, 28vw);    
+    grid-template-rows: repeat(auto-fill, 10vh);
+    justify-content: space-evenly;    
+    overflow: auto;
+    margin: 0vw;
+}
+.need-item {
+    border: solid 3px rgb(255, 3, 179);
+    height: 10vh;
+    width: 28vw;
+    /* align items in the box */
+    display: grid;
+    grid-template-columns: 6vw 10vw 3.5vw 3vw 3.5vw 2vw;
+    margin: 0vw;
+    justify-content: space-evenly;
+    text-align: center;
+    align-items: center; 
 }
 
 .want-box {
-    border: solid 3px #ccc;
-    height: 10vh;
+    border: solid 3px rgb(83, 22, 224);
+    height: 15vh;
     /* align items in the box */
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    overflow: scroll;
-    gap: 10px;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, 5.5vw);
+    grid-template-rows: repeat(auto-fill, 5.5vh);
+    justify-content: space-evenly;
+    overflow: auto;
+    z-index: 5;
 }
 
 .items-box {
@@ -36,10 +70,10 @@ body {
     grid-template-columns: repeat(auto-fill, 5.5vw);
     grid-template-rows: repeat(auto-fill, 5.5vw);
     grid-auto-flow: row;
-    overflow: scroll;    
-    gap: 0px;
-    height: 70vh;
+    overflow: auto;    
+    height: 80vh;
     justify-content: space-evenly;
+    margin: 0vw;
 }
 
 
