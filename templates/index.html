@@ -169,7 +169,7 @@
               new_item.id = "need_" + original_item.id;
 
               const new_item_img_div = document.createElement("img");
-              new_item_img_div.style.maxWidth = "100%";
+              new_item_img_div.style.height = "min(10vh, 5vw)";
               new_item_img_div.src = original_item.src;
               //new_item_img_div.style.display = "block";
               //new_item_img_div.style.height = "10vh";
@@ -178,28 +178,29 @@
 
               const new_item_name_div = document.createElement("div");
               //new_item_name_div.style.width = "20%";
-              new_item_name_div.style.fontSize = "1.75vw";
+              new_item_name_div.style.fontSize = "min(1.75vw, 1.75vh)";
               new_item_name_div.style.justifyContent = "center";
               new_item_name_div.style.textAlign = "center";
               new_item_name_div.innerHTML += original_item.id; 
               
               const first_buttons_div = document.createElement("div");
               //first_buttons_div.style.width = "25%";             
-              first_buttons_div.innerHTML += '<button class="button add-button">+</button>';
-              first_buttons_div.innerHTML += '<button class="button subtract-button">-</button>';
+              first_buttons_div.innerHTML += '<button onclick="handle_left_plus_click(this)" class="button add-button">+</button>';
+              first_buttons_div.innerHTML += '<button onclick="handle_left_minus_click(this)" class="button subtract-button">-</button>';
 
               const fraction_div = document.createElement("div");
               //fraction_div.style.width = "10%";  
-              fraction_div.style.fontSize = "3vw";
-              fraction_div.innerHTML += '  1&frasl;8  ';
+              fraction_div.style.fontSize = "min(3vw, 3vh)";
+              fraction_div.innerHTML += '1&frasl;8';
 
               const second_buttons_div = document.createElement("div");
               //second_buttons_div.style.width = "25%";  
-              second_buttons_div.innerHTML += '<button class="button add-button">+</button>';
-              second_buttons_div.innerHTML += '<button class="button subtract-button">-</button>';
+              second_buttons_div.innerHTML += '<button onclick="handle_right_plus_click(this)" class="button add-button">+</button>';
+              second_buttons_div.innerHTML += '<button onclick="handle_right_minus_click(this)" class="button subtract-button">-</button>';
 
               const trash_button_div = document.createElement("div");
               trash_button_div.innerHTML = "&#128465";
+              trash_button_div.style.cursor = "pointer";
               trash_button_div.addEventListener('click', function handleClick(event){
                 event.target.parentElement.remove();
               });
@@ -212,12 +213,66 @@
               new_item.appendChild(trash_button_div);
               need_items.appendChild(new_item);
             }
+
+            function handle_left_plus_click(element){
+              const p = element.parentElement.parentElement;
+              const frac_div = p.children[3];
+              const frac = frac_div.innerHTML;
+              var fraction_elements = frac.split("\u2044");
+              var left_side = parseInt(fraction_elements[0]);
+              var right_side = parseInt(fraction_elements[1]);
+              left_side = left_side + 1;
+              frac_div.innerHTML = left_side + "&frasl;" + right_side;
+            }
+
+            function handle_left_minus_click(element){
+              const p = element.parentElement.parentElement;
+              const frac_div = p.children[3];
+              const frac = frac_div.innerHTML;
+              var fraction_elements = frac.split("\u2044");
+              var left_side = parseInt(fraction_elements[0]);
+              var right_side = parseInt(fraction_elements[1]);
+              left_side = left_side - 1;
+              left_side = Math.max(0, left_side)
+              frac_div.innerHTML = left_side + "&frasl;" + right_side;
+            }
+
+            function handle_right_plus_click(element){
+              const p = element.parentElement.parentElement;
+              const frac_div = p.children[3];
+              const frac = frac_div.innerHTML;
+              var fraction_elements = frac.split("\u2044");
+              var left_side = parseInt(fraction_elements[0]);
+              var right_side = parseInt(fraction_elements[1]);
+              right_side = right_side + 1;
+              frac_div.innerHTML = left_side + "&frasl;" + right_side;
+            }
+
+            function handle_right_minus_click(element){
+              const p = element.parentElement.parentElement;
+              const frac_div = p.children[3];
+              const frac = frac_div.innerHTML;
+              var fraction_elements = frac.split("\u2044");
+              var left_side = parseInt(fraction_elements[0]);
+              var right_side = parseInt(fraction_elements[1]);
+              right_side = right_side - 1;
+              right_side = Math.max(1, right_side)
+              frac_div.innerHTML = left_side + "&frasl;" + right_side;
+            }
+
             function add_item_to_want(original_item){
               const new_item_img_div = document.createElement("img");
               new_item_img_div.style.maxWidth = "100%";
-              new_item_img_div.src = original_item.src;
+              new_item_img_div.src = original_item.src;              
+              new_item_img_div.style.cursor = "pointer";
               new_item_img_div.addEventListener('click', function handleClick(event){
                 event.target.remove();
+              });
+              new_item_img_div.addEventListener("mouseenter", function( event ) {
+                event.target.style.background = "red";
+              });
+              new_item_img_div.addEventListener("mouseleave", function( event ) {
+                event.target.style.background = "";
               });
               want_items.appendChild(new_item_img_div);
             }

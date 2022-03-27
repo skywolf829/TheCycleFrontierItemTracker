@@ -102,25 +102,25 @@ body {
 .add-button {
     background-color: #28f093;
     border: 1px;
-    width: 1.5vw;
-    height: 1.5vw;
+    width: min(1.5vw, 3vh);
+    height: min(1.5vw, 3vh);
     color: rgb(0, 0, 0);
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1vw;
+    font-size: min(1vw, 2vh);
     border-radius: 50%;
   }
 
 .subtract-button {
     background-color: #f73c3c;
     border: 1px;
-    width: 1.5vw;
-    height: 1.5vw;
+    width: min(1.5vw, 3vh);
+    height: min(1.5vw, 3vh);
     color: rgb(0, 0, 0);
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1vw;
+    font-size: min(1vw, 2vh);
     border-radius: 50%;
   }
