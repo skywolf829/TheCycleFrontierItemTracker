@@ -43,7 +43,10 @@ body {
     font-size: 1vh;
 }
 .lead-text-box-header{
-    font-size: 2vh;
+    font-size: min(2.5vh, 3vw);
+}
+.text-box{
+    font-size: min(1.5vh, 2vw);
 }
 .need-want-boxes{
     border: solid 0px rgb(117, 117, 117);
@@ -126,12 +129,13 @@ body {
 .add-button {
     background-color: #28f093;
     border: 1px;
+    margin: auto;
     width: min(1.5vw, 3vh);
     height: min(1.5vw, 3vh);
     color: rgb(0, 0, 0);
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: block;
     font-size: min(1vw, 2vh);
     border-radius: 50%;
   }
@@ -139,12 +143,13 @@ body {
 .subtract-button {
     background-color: #f73c3c;
     border: 1px;
+    margin: auto;
     width: min(1.5vw, 3vh);
     height: min(1.5vw, 3vh);
     color: rgb(0, 0, 0);
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: block;
     font-size: min(1vw, 2vh);
     border-radius: 50%;
   }

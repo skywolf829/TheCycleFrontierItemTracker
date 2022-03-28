@@ -18,18 +18,16 @@
       <div class="column">
         <div align="left" class="lead-text-box">
           <p class="lead-text-box-header">Welcome, prospector!</p>
-          <p>
+          <p class="text-box">
            This site is here for you to track the items you need for 
           base upgrades and crafting. Drag items from the left into 
           the "Need" and "Want" categories. 
           Delete items from the want list by clicking them, or from the
           need list by clicking the trash icon on the right.
-          </p>
-          <p>
+          <br>
           Feel free to tinker with my code, available
           <a href="https://github.com/skywolf829/TheCycleFrontierItemTracker"> on GitHub </a>. 
-          </p>
-          <p>
+          <br>
           Thanks, and happy prospecting!
           </p>
         </div>
@@ -135,27 +133,28 @@
             }
             function loadCookieData(){
               d = getCookie("data");
-              d = d.split(",");
-              no_need_items = parseInt(d[0]);
-              no_want_items = parseInt(d[1]);
-              var ind = 2;
-              end = 2+(no_need_items*3)
-              for(ind = 2; ind < end; ind+=3){
-                item_id = d[ind];
-                item_have_num = d[ind+1];
-                item_total_num = d[ind+2];
-                node = item_id_to_object(item_id);
-                need_item = add_item_to_need(node);
-                need_item.children[3].innerHTML = 
-                  item_have_num +"&frasl;" + item_total_num;
+              if(d){
+                d = d.split(",");
+                no_need_items = parseInt(d[0]);
+                no_want_items = parseInt(d[1]);
+                var ind = 2;
+                end = 2+(no_need_items*3)
+                for(ind = 2; ind < end; ind+=3){
+                  item_id = d[ind];
+                  item_have_num = d[ind+1];
+                  item_total_num = d[ind+2];
+                  node = item_id_to_object(item_id);
+                  need_item = add_item_to_need(node);
+                  need_item.children[3].innerHTML = 
+                    item_have_num +"&frasl;" + item_total_num;
+                }
+                
+                for(; ind < d.length; ind++){
+                  item_id = d[ind];
+                  node = item_id_to_object(item_id);
+                  add_item_to_want(node);
+                }
               }
-              
-              for(; ind < d.length; ind++){
-                item_id = d[ind];
-                node = item_id_to_object(item_id);
-                add_item_to_want(node);
-              }
-  
             }
             function createCookieInfo(){
               
@@ -284,7 +283,7 @@
               new_item.id = original_item.id + " need";
 
               const new_item_img_div = document.createElement("img");
-              new_item_img_div.style.height = "min(10vh, 3vw)";
+              new_item_img_div.style.height = "min(10vh, 6vw)";
               new_item_img_div.src = original_item.src;
               //new_item_img_div.style.display = "block";
               //new_item_img_div.style.height = "10vh";
@@ -302,6 +301,7 @@
               new_item_name_div.innerHTML += name
               
               const first_buttons_div = document.createElement("div");
+              //first_buttons_div.className = "col";
               //first_buttons_div.style.width = "25%";             
               first_buttons_div.innerHTML += '<button onclick="handle_left_plus_click(this)" class="button add-button">+</button>';
               first_buttons_div.innerHTML += '<button onclick="handle_left_minus_click(this)" class="button subtract-button">-</button>';
@@ -319,6 +319,7 @@
               const trash_button_div = document.createElement("div");
               trash_button_div.innerHTML = "&#128465";
               trash_button_div.style.cursor = "pointer";
+              trash_button_div.style.fontSize = "min(2vw, 2vh)";
               trash_button_div.addEventListener('click', function handleClick(event){
                 event.target.parentElement.remove();
                 updateCookie();
