@@ -8,10 +8,6 @@ from bs4 import BeautifulSoup
 import requests
 
 
-# global items_list
-# items_list = None
-
-
 class CycleApp:
     def __init__(self):
         self.items_list = None
