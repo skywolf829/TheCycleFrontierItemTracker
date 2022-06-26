@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+import logging
 import shutil
 
 from flask import Flask, render_template, request
@@ -9,12 +10,13 @@ import requests
 
 
 class CycleApp:
-    def __init__(self):
+    def __init__(self, app_name):
         self.items_list = None
-        self.app = Flask(__name__)
+        self.app = Flask(app_name)
         self.app.route('/')(self.index)
         self.app.route('/index')(self.index)
         self.app.run(host='0.0.0.0', debug=False, port=8080)
+        self.logger = logging.Logger(app_name)
 
     @staticmethod
     def log_visitor():
@@ -24,9 +26,9 @@ class CycleApp:
         dt = now.strftime("%d/%m/%Y %H:%M:%S")
 
         pth = os.path.dirname(os.path.abspath(__file__))
-        f = open(os.path.join(pth, "log.txt"), "a")
-        f.write(dt + ": " + str(visitor_ip) + " " + str(visitor_requested_path) + "\n")
-        f.close()
+        with open(os.path.join(pth, "log.txt"), "a") as f:
+            f.write(f"{dt}: {visitor_ip} {visitor_requested_path}")
+            f.close()
 
     def index(self):
         self.log_visitor()
@@ -35,8 +37,7 @@ class CycleApp:
 
         return render_template('index.html', items_list=self.items_list)
 
-    @staticmethod
-    def download_images():
+    def download_images(self):
         url = "https://thecyclefrontier.fandom.com/wiki/Loot"
         page = requests.get(url)
 
@@ -53,16 +54,16 @@ class CycleApp:
                     elif cells[1].find("a") is not None:
                         name = cells[1].find("a").string.strip()
                     else:
-                        raise Exception("an issue with cells occurred, {}".format(cells[1]))
+                        raise Exception(f"an issue with cells occurred, {cells[1]}")
                 else:
                     name = cells[1].string.strip()
 
                 if cells[0].find("img") is not None:
-                    print(cells[0])
+                    self.logger.debug(cells[0])
                     image_src = cells[0].find("a")['href']
                     img = requests.get(image_src, stream=True)
-                    with open(os.path.join(os.getcwd(), "static", "img",
-                                           name + ".png"), 'wb') as f:
+                    file_path = os.path.join(os.getcwd(), "static", "img", f"{name}.png")
+                    with open(file_path, 'wb') as f:
                         img.raw.decode_content = True
                         shutil.copyfileobj(img.raw, f)
 
@@ -92,13 +93,12 @@ class CycleApp:
                     elif cells[1].find("a") is not None:
                         name = cells[1].find("a").string.strip()
                         link = cells[1].find("a", href=True)['href']
-                        link = link.replace("/wiki",
-                                            "https://thecyclefrontier.fandom.com/wiki")
+                        link = link.replace("/wiki", "https://thecyclefrontier.fandom.com/wiki")
                 else:
                     name = cells[1].string.strip()
 
                 if cells[0].find("img") is not None:
-                    image_src = "img/" + name + ".png"
+                    image_src = f"img/{name}.png"
 
                 if cells[2].string is not None:
                     weight = cells[2].string.strip()
@@ -110,7 +110,7 @@ class CycleApp:
                     price_per_weight = cells[4].string.strip()
 
                 item = {
-                    "id": str(item_no),
+                    "id": str(len(self.items_list)),
                     "name": name,
                     "link": link,
                     "image_src": image_src,
@@ -119,8 +119,7 @@ class CycleApp:
                     "sell_price": sell_price
                 }
                 self.items_list.append(item)
-                item_no += 1
 
 
 if __name__ == '__main__':
-    CycleApp()
+    CycleApp(__name__)
