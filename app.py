@@ -7,7 +7,6 @@ import mechanicalsoup
 from bs4 import BeautifulSoup
 import requests
 
-app = Flask(__name__)
 
 global items_list
 items_list = None
@@ -25,8 +24,6 @@ def log_visitor():
     f.close()
 
 
-@app.route('/')
-@app.route('/index')
 def index():
     global items_list
     log_visitor()
@@ -53,6 +50,8 @@ def download_images():
                     name = cells[1].find("span").string.strip()
                 elif cells[1].find("a") is not None:
                     name = cells[1].find("a").string.strip()
+                else:
+                    raise Exception("an issue with cells occurred, {}".format(cells[1]))
             else:
                 name = cells[1].string.strip()
 
@@ -110,7 +109,6 @@ def populate_items():
             if cells[4].string is not None:
                 price_per_weight = cells[4].string.strip()
 
-                # print(f"{name}: {link} {weight} {price_per_weight}")
             item = {
                 "id": str(item_no),
                 "name": name,
@@ -124,6 +122,16 @@ def populate_items():
             item_no += 1
 
 
+def initialize_app(app: Flask):
+    app.route('/')(index)
+    app.route('/index')(index)
+
+
+def main():
+    app = Flask(__name__)
+    initialize_app(app)
+    app.run(host='0.0.0.0', debug=False, port=8080)
+
+
 if __name__ == '__main__':
-    # app.run(host='127.0.0.1',debug=True,port="12345")
-    app.run(host='0.0.0.0', debug=False, port="80")
+    main()
