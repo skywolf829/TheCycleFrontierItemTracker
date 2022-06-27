@@ -1,8 +1,8 @@
 # The Cycle: Frontier Item Tracker
 A web-based tool to track which items you need in The Cycle: Frontier.
 
-To run the code, you'll need Python3 with flask, BeautifulSoup4, mechanicalsoup, requests, and shutil.
-Once those are installed, run "python3 app.py" to run locally.
+This code requires Python3 and some 3rd party libraries.  To install the requirements, run `python3 -m pip install -r requirements.txt`.
+Once those are installed, run `python3 app.py` to run locally.
 Navigate to "localhost" in your browser, and there you'll see the page.
 
 The website is a work in progress, but currently, the need/want lists can be populated by dragging items from the item list on the left to the need/want boxes on the right. Adjust the number you have/need with the +/- buttoms. Data is saved between opens via a cookie.
